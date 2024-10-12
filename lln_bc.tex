@@ -296,6 +296,7 @@
 \renewcommand{\ggg}{\mathbf{g}}
 \newcommand{\GG}{\mathbf{G}}
 \DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\cov}{Cov}
 \DeclareMathOperator{\expc}{\mathbb{E}}
 \renewcommand{\Pr}{\mathbb{P}}
 \newcommand{\lb}{\underline}
@@ -459,7 +460,7 @@ the convergence in~$L^p$ for~$p>1$.
 
 \begin{lemma}[Kronecker's Lemma]
     \label{lem:kronecker}
-    Let~$\{a_k\}$ be a sequence of nonnegative numbers and~$\{b_k\}$ be an increasing sequence
+    Let~$\{a_k\}$ be a sequence of nonnegative numbers and~$\{b_k\}$ be a non-decreasing sequence
     with~$b_k\to \infty$.
     \begin{enumerate}
         \item If~$\sum_{k=1}^\infty b_k^{-1}a_k < \infty$, then~$b_k^{-1}\sum_{\ell=1}^k a_\ell\to 0$.
@@ -484,6 +485,21 @@ the convergence in~$L^p$ for~$p>1$.
     if~$\mathbb{E}(|X_k|) < \infty$ and $\mathbb{E}(X_k \mathrel{|} \FF_{k-1}) = 0$ \as for each $k \ge 1$.
 \end{definition}
 
+\begin{lemma}[Orthogonality]
+    \label{lem:orth}
+    If~$\{X_k\}$ is a martingale difference sequence, then
+    $\expc(X_iX_j) = 0$ and~$\cov(X_i, X_j) = 0$ for any distinct~$i$ and~$j$.
+\end{lemma}
+
+\begin{proof}
+    For any~$i > j \ge 1$, we have
+    \[
+        \expc(X_iX_j) \;=\;  \expc(X_j\expc(X_i\mathrel{|}\FF_{i-1})) \;=\; 0.
+    \]
+    In addition, $\expc(X_i) = \expc(\expc(X_i\mathrel{|}\FF_{i-1})) = 0$ and
+    similarly~$\expc(X_j) = 0$. Hence~$\cov(X_i, X_j) = 0$.
+\end{proof}
+
 \begin{theorem}[Chow~\cite{Chow_1967}]
     \label{th:sllnmd1}
     Let~$\{X_k\}$ be a martingale difference sequence. If there exists a constant~$p\ge 1$ such that
@@ -503,24 +519,6 @@ the convergence in~$L^p$ for~$p>1$.
     \end{center}
 \end{remark}
 
-\begin{remark}
-    \label{rem:kronecker}
-    The special case of Theorem~\ref{th:sllnmd1} with~$p=1$ can be obtained by
-    the martingale $L^p$ convergence theorem and the Kronecker Lemma.
-    Define~$Y_k \;=\;  \sum_{\ell=1}^k \ell^{-1}X_\ell$ for each~$k\ge 1$. Then~$\{Y_k\}$ is
-    a martingale. In addition, noting that
-    \[
-        \expc(X_iX_j) \;=\;  \expc(X_j\expc(X_i\mathrel{|}\FF_{i-1})) \;=\; 0, \quad i >j \ge 1,
-    \]
-    we have
-    \[
-        \expc(Y_k^2) \;=\; \sum_{\ell=1}^k \ell^{-2}\expc(X_\ell^2) \;\le\; \sum_{\ell=1}^\infty \ell^{-2}
-        \expc(X_\ell^2) \;<\; \infty.
-    \]
-    Hence~$\{Y_k\}$ is an~$L^2$-bounded martingale, and hence converges \as
-    Invoking the Kronecker lemma, we have~$\bar{X}_k \to 0$ \as
-\end{remark}
-
 \begin{theorem}[\mbox{\cite[Theorem~2.18]{Hall_Heyde_1980}}]
     \label{th:sllnmd2}
     If~$1\le p\le 2$ and~$\{X_k\}$ is a martingale difference sequence adapted to a filtration~$\{\FF_k\}$, then
@@ -530,6 +528,28 @@ the convergence in~$L^p$ for~$p>1$.
    \]
    In particular, if~$\sum_{k=1}^\infty k^{-p} \expc(|X_k|^p) < \infty$, then~$\bar{X}_k \to 0$ \as
 \end{theorem}
+
+\begin{corollary}
+    \label{coro:mdl2}
+    Let~$\{X_k\}$ be a martingale difference sequence. If~$\sum_{k=1}^\infty k^{-2}\var(X_k) < \infty$,
+    then~$\bar{X}_k \to 0$ \as
+\end{corollary}
+
+\begin{proof}
+    This is the special case of Theorem~\ref{th:sllnmd1} with~$p=1$
+    or that of Theorem~\ref{th:sllnmd2} with~$p=2$.
+    We now provide an alternative proof using the martingale $L^p$ convergence theorem and
+    Kronecker's Lemma.
+    Define~$Y_k \;=\;  \sum_{\ell=1}^k \ell^{-1}X_\ell$ for each~$k\ge 1$. Then~$\{Y_k\}$ is
+    a martingale. In addition, due to Lemma~\ref{lem:orth}, we have
+    \[
+        \expc(Y_k^2) \;=\; \sum_{\ell=1}^k \ell^{-2}\expc(X_\ell^2) \;\le\; \sum_{\ell=1}^\infty \ell^{-2}
+        \expc(X_\ell^2) \;<\; \infty.
+    \]
+    Hence~$\{Y_k\}$ is an~$L^2$-bounded martingale, and hence converges \as
+    Invoking Kronecker's Lemma, we have~$\bar{X}_k \to 0$ \as
+\end{proof}
+
 
 \subsection{The independent case with moment conditions}
 \label{sec:sllnindep}
@@ -585,6 +605,38 @@ the convergence in~$L^p$ for~$p>1$.
    In both cases, $\bar{Y}_k \to 0$ \as by Theorems~\ref{th:sllnmd1} and~\ref{th:sllnmd2}.
    Thus~$\bar{X}_k - \expc(\bar{X}_k) \to 0$ \as
 \end{proof}
+
+\begin{theorem}[Kolmogorov's two series theorem~\mbox{\cite[Theorems~2.5.6 and~2.5.8]{Durrett_2019}}]
+    \label{th:kolmogorov2}
+    Let~$\{X_k\}$ be a sequence of independent random variables.
+    If both~$\sum_{k=1}^\infty \expc(X_k)$ and
+    $\sum_{k=1}^\infty \var(X_k)$ \textnormal{(}or $\sum_{k=1}^\infty \expc(X_k^2)$\textnormal{)}
+    converge, then~$\sum_{k=1}^\infty X_k$ converges \as
+\end{theorem}
+
+\begin{remark}
+    \label{rem:kolmogorov2}
+    Theorem~\ref{th:kolmogorov2} is a special case of Theorem~\ref{th:mlp} with~$p=2$.
+    To see this, define~$Y_k = \sum_{\ell=1}^k [X_\ell-\expc(X_\ell)]$ for each~$k\ge 1$. Then~$\{Y_k\}$ is a
+    martingale. In addition, it is bounded in~$L^2$, since
+    \[
+        \expc(Y_k^2) \;=\; \sum_{\ell=1}^k \var(X_\ell)
+        \;\le\; \sum_{\ell=1}^\infty \var(X_\ell) \;<\; \infty.
+    \]
+    Thus~$\{Y_k\}$ converges \as Combining this with the convergence of~$\sum_{k}^\infty \expc(X_k)$,
+    we obtain the almost sure convergence of~$\sum_{k=1}^\infty X_k$.
+\end{remark}
+
+The following proposition is sometimes known as ``Kolmogorov's Criterion of SSLN''.
+It follows from Theorem~\ref{th:kolmogorov2} and Kronocker's Lemma
+(consider the sequence~$\{\sum_{\ell=1}^k\ell^{-1}X_\ell\}$).
+It is also a special case of Corollary~\ref{coro:mdl2} and Theorem~\ref{th:sllnindep}.
+
+\begin{corollary}
+    \label{coro:kolmogorov2}
+    Let~$\{X_k\}$ be a sequence of independent random variables with~$\expc(X_k)=0$ for each~$k\ge 0$.
+    If~$\sum_{k=1}^\infty k^{-2}\var(X_k) < \infty$, then~$\bar{X}_k\to 0$ \as
+\end{corollary}
 
 
 \section{The Borel-Cantelli Lemmas}
