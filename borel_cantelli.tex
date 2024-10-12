@@ -1,0 +1,832 @@
+\documentclass[12pt,a4paper]{article}  % Use this line if this document will be released
+%\documentclass[12pt,a4paper,draft]{article}  % Use this line if this document is a draft
+\usepackage{ifdraft}
+
+
+%% Bibliography
+\usepackage{etoolbox}
+\newcommand{\bibfile}{\jobname.bib}  % Name of the BibTeX file.
+% ref.bib should be a symbolic link to the universal BibTeX file, which should be a local copy of
+% https://github.com/equipez/bibliographie/blob/main/ref.bib
+% When the paper is finished, run `getbib` in the current directory to get the BibTeX file
+% containing only the cited references. The name will be xyz.bib if this TeX file is xyz.tex.
+\newcommand{\universalbib}{ref.bib}
+\ifdraft{\IfFileExists{\universalbib}{\renewcommand{\bibfile}{\universalbib}}{}}{}
+% 20221018: \iscite does not work as intended.
+% The counter `cite' is used to count the number of citations.
+\newcounter{cite}
+\pretocmd{\cite}{\stepcounter{cite}}{}{}
+
+
+%% Geometry
+\voffset=-1.5cm \hoffset=-1.4cm \textwidth=16cm \textheight=22.0cm  % Luis' setting
+%\usepackage[a4paper, textwidth=16.0cm, textheight=22.0cm]{geometry}
+\renewcommand{\baselinestretch}{1.2}
+
+
+%% Basic packages
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{mathtools}  % Provides \coloneqq
+\usepackage{empheq}
+\usepackage{xcolor}
+\usepackage[bbgreekl]{mathbbol}
+\DeclareSymbolFontAlphabet{\mathbbm}{bbold}
+\DeclareSymbolFontAlphabet{\mathbb}{AMSb}
+\usepackage{bbm}
+\usepackage{upgreek}
+\usepackage{accents}
+\usepackage{xspace}
+\usepackage{rotating}
+\usepackage{multirow,booktabs}
+\usepackage[en-US]{datetime2}
+
+
+%% Format of the table of content
+\usepackage[normalem]{ulem}
+\usepackage[toc,page]{appendix}
+\renewcommand{\appendixpagename}{\Large{Appendix}}
+\renewcommand{\appendixname}{Appendix}
+\renewcommand{\appendixtocname}{Appendix}
+%\usepackage{sectsty}
+\setcounter{tocdepth}{2}
+
+
+%% Section title style
+\usepackage{sectsty}
+\sectionfont{\large}
+\subsectionfont{\large}
+
+
+%% Some colors
+\definecolor{darkblue}{rgb}{0,0.1,0.5}
+\definecolor{darkgreen}{rgb}{0,0.5,0.1}
+\definecolor{darkyellow}{rgb}{0.65,0.65,0.01}
+
+
+%% Todo notes
+\ifdraft{
+    \setlength{\marginparwidth}{2.42cm}
+    \usepackage[tickmarkheight=3pt,textsize=small,backgroundcolor=blue!16,linecolor=purple,bordercolor=purple]{todonotes}
+}{
+    \newcommand{\todo}[1]{}
+    \newcommand{\listoftodos}{}
+}
+
+
+%% Graph, tikz and pgf
+%\usepackage{subfigure}
+\setlength{\unitlength}{1mm}
+% The \unitlength command is a Length command. It defines the units used in the Picture Environment.
+\usepackage{graphicx}
+%\usepackage{tikz,tikzscale,pgf,pgfarrows,pgfnodes,filecontents,tikz-cd}
+\usepackage{tikz,tikzscale,pgf}
+\usetikzlibrary{arrows,arrows.meta,patterns,positioning,decorations.markings,shapes}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage[justification=centering]{caption}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{compat=1.11}
+
+
+%% Turn off some unharmful warnings in draft mode
+%% N.B.: DO NOT use `silence` together with `hyperref`. They will cause an infinite loop.
+\ifdraft{
+    \usepackage{silence}
+    \WarningFilter{xcolor}{Incompatible color definition on}
+    \WarningFilter{hyperref}{Draft mode on}
+    \WarningFilter{refcheck}{Unused label}
+    \WarningFilter{microtype}{`draft' option active}
+    \WarningFilter{latex}{Writing or overwriting file} % Mute the warning about 'writing/overwriting file'
+    \WarningFilter{latex}{Writing file} % Mute the warning about 'writing/overwriting file'
+    \WarningFilter{latex}{Tab has} % Mute the warning about 'Tab has been converted to Blank Space'
+    \WarningFilter{latex}{Marginpar on page} % Mute the warning about 'Marginpar on page xx moved'
+    \WarningFilter{latex}{author given} % Mute the warning about 'No \author given'
+}{}
+
+
+%% Hyperref, url, and email
+%% N.B.: DO NOT use `silence` together with `hyperref`. They will cause an infinite loop.
+\ifdraft{\usepackage{refcheck}\newcommand{\url}{\texttt}}{
+    \usepackage{hyperref}
+    \hypersetup{colorlinks, linkcolor=darkblue, anchorcolor=darkblue, citecolor=darkblue, urlcolor=darkblue}
+    \usepackage{url}
+} % Check unused labels
+\newcommand{\email}{\texttt}
+
+
+%% Enumerate and itemize
+\usepackage{eqlist}
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*}
+\setlist[enumerate]{leftmargin=*,label=\normalfont{(\alph*)}}
+
+
+%% Algorithm environment
+\usepackage[section]{algorithm}
+\usepackage{algpseudocode,algorithmicx}
+\newcommand{\INPUT}{\textbf{Input}}
+\newcommand{\FOR}{\textbf{For}~}
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\algrenewcommand\alglinenumber[1]{\normalsize #1.}
+\newcommand*\Let[2]{\State #1 $=$ #2}
+
+
+%% Theorem-like environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{exercise}{Exercise}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{problem}{Problem}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{question}{Question}[section]
+% Change theoremstyle to ``definition'', which uses textnormal for the text.
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+% proof
+\usepackage{xpatch}
+\xpatchcmd{\proof}{\itshape}{\normalfont\proofnamefont}{}{}
+\newcommand{\proofnamefont}{\bfseries}
+
+%% Equation numbering
+\numberwithin{equation}{section}
+
+
+%% Fine tuning
+\usepackage{microtype}
+\usepackage[nobottomtitles*]{titlesec} % No section title at the bottom of pages
+% Prevent footnote from running to the next page
+\interfootnotelinepenalty=10000
+% No line break in inline math
+\interdisplaylinepenalty=10000
+\relpenalty=10000
+\binoppenalty=10000
+% No widow or orphan lines
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+
+% Use @ to put 1 math unit (mu) in math
+% See https://nhigham.com/2013/01/07/fine-tuning-spacing-in-latex-equations/
+% and also TeXbook p. 155.
+\mathcode`@="8000{\catcode`\@=\active\gdef@{\mkern1mu}}
+
+
+%% Operators, commands
+\usepackage{relsize}
+\usepackage{nccmath}
+%\DeclareMathOperator*{\mcap}{\,\medmath{\bigcap}\,}
+%\DeclareMathOperator*{\mcup}{\,\medmath{\bigcup}\,}
+\DeclareMathOperator*{\mcap}{\,\mathsmaller{\bigcap}\,}
+\DeclareMathOperator*{\mcup}{\,\mathsmaller{\bigcup}\,}
+%\renewcommand{\cap}{\mcap}
+%\renewcommand{\cup}{\mcup}
+
+\newcommand{\ceil}[1]{ {\lceil{#1}\rceil} }
+\newcommand{\floor}[1]{ {\lfloor{#1}\rfloor} }
+
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\sort}{sort}
+\DeclareMathOperator*{\Argmax}{Argmax}
+\DeclareMathOperator*{\Argmin}{Argmin}
+\DeclareMathOperator*{\Arglocmin}{Arglocmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\diag}{diag}
+\DeclareMathOperator*{\Diag}{Diag}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\med}{med}
+\DeclareMathOperator{\essinf}{essinf}
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\range}{range}
+\DeclareMathOperator{\card}{card}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\dist}{dist}
+\newcommand{\disth}{{\operatorname{\updelta_{\sss{H}}}}}
+\newcommand{\ind}{\mathbbm{1}}
+%\newcommand*{\defeq}{\stackrel{\mbox{\normalfont\tiny{\textnormal{def}}}}{=}}
+\newcommand\defeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily def}}}{=}}}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\BB}{\mathcal{B}}
+\renewcommand{\SS}{\mathbb{S}}
+\newcommand{\TT}{\mathcal{T}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\XX}{\mathcal{X}}
+\newcommand{\sset}{\mathcal{S}}
+\newcommand{\pen}{h}
+\newcommand{\penpar}{\mu}
+\newcommand{\res}{\rho}
+\newcommand{\col}{r}
+\newcommand{\ofd}{\mathcal{F}}
+\newcommand{\stf}[1]{\mathbb{S}^{#1}}
+\newcommand{\sss}[1]{{\scriptscriptstyle{#1}}}
+\newcommand{\sK}{{\scriptscriptstyle{K}}}
+\newcommand{\sT}{{\scriptscriptstyle{T}}}
+\newcommand{\io}{{\text{i.o.}}\xspace}
+\newcommand{\as}{{\text{a.s.}}\xspace}
+\newcommand{\comp}{{\textnormal{c}}}
+\newcommand{\fro}{{\scriptstyle{\textnormal{F}}}}
+\newcommand{\trs}{{\scriptstyle{\mathsf{T}}}}
+\newcommand{\hmt}{{\scriptstyle{{\mathsf{H}}}}}
+\newcommand{\pin}{{\scriptstyle{{\mathsf{+}}}}}
+\newcommand{\inv}{{-1}}
+\newcommand{\adj}{*}
+\newcommand{\ones}{\mathbf{1}}
+
+\newcommand{\cs}{\text{c}}
+\newcommand{\hp}{\circ}
+\newcommand{\cc}{\sss{\textnormal{C}}}
+\newcommand{\dec}{\sss{\textnormal{D}}}
+\newcommand{\cauchy}{\sss{\textnormal{C}}}
+\newcommand{\scauchy}{\sss{\textnormal{S}}}
+\newcommand{\crit}{\textnormal{crit}}
+\newcommand{\rsg}{\hat{\partial}}
+\newcommand{\gsg}{\partial}
+\newcommand{\dom}{\textnormal{dom}}
+\newcommand{\tf}{{\textnormal{f}}}
+\newcommand{\tg}{{\textnormal{g}}}
+\newcommand{\ts}{{\textnormal{s}}}
+\newcommand{\st}{\textnormal{s.t.}}
+\newcommand{\etc}{{etc.}}
+\newcommand{\ie}{{i.e.}}
+\newcommand{\eg}{{e.g.}}
+\newcommand{\etal}{{et al.}}
+\newcommand{\iid}{{\text{i.i.d.}}\xspace}
+
+\newcommand{\me}{\mathrm{e}}
+\newcommand{\md}{\mathrm{d}}
+\newcommand{\mi}{\mathrm{i}}
+\newcommand{\lev}{\mathrm{lev}}
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bx}{\mathbf{u}}
+%\newcommand{\bb}{\mathbf{f}}
+\newcommand{\bb}{\mathbf{r}}
+\newcommand{\nov}{n_{\textnormal{o}}}
+\xspaceaddexceptions{]\}}
+% tex.stackexchange.com/questions/15252/why-does-xspace-behave-differently-for-parenthesis-vs-braces-brackets
+\newcommand{\MATLAB}{\textsc{Matlab}\xspace}
+\newcommand{\octave}{\mbox{GNU Octave}\xspace}
+\newcommand{\prblm}{\texttt}
+\DeclareMathAlphabet{\mathsfit}{T1}{\sfdefault}{\mddefault}{\sldefault}
+\SetMathAlphabet{\mathsfit}{bold}{T1}{\sfdefault}{\bfdefault}{\sldefault}
+\newcommand{\prbb}{\mathsfit{p}}
+\newcommand{\pp}{\mathsf{p}}
+\newcommand{\qq}{\mathsf{q}}
+\newcommand{\ttt}{\mathsfit{t}}
+\newcommand{\tol}{\varepsilon}
+\newcommand{\bt}{\mathbf{t}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\dd}{\mathbf{d}}
+\newcommand{\ii}{\mathbf{i}}
+\newcommand{\jj}{\mathbf{j}}
+\newcommand{\xx}{\mathbf{x}}
+\renewcommand{\pp}{\mathbf{p}}
+\renewcommand{\ggg}{\mathbf{g}}
+\newcommand{\GG}{\mathbf{G}}
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\expc}{\mathbb{E}}
+\renewcommand{\Pr}{\mathbb{P}}
+\newcommand{\lb}{\underline}
+\newcommand{\ub}{\overline}
+
+% mathlcal font
+\DeclareFontFamily{U}{dutchcal}{\skewchar\font=45 }
+\DeclareFontShape{U}{dutchcal}{m}{n}{<-> s*[1.0] dutchcal-r}{}
+\DeclareFontShape{U}{dutchcal}{b}{n}{<-> s*[1.0] dutchcal-b}{}
+\DeclareMathAlphabet{\mathlcal}{U}{dutchcal}{m}{n}
+\SetMathAlphabet{\mathlcal}{bold}{U}{dutchcal}{b}{n}
+
+% mathscr font (supporting lowercase letters)
+%\usepackage[scr=dutchcal]{mathalfa}
+%\usepackage[scr=esstix]{mathalfa}
+%\usepackage[scr=boondox]{mathalfa}
+%\usepackage[scr=boondoxo]{mathalfa}
+\usepackage[scr=boondoxupr]{mathalfa}
+%\newcommand{\model}{\mathscr{h}}
+\newcommand{\model}{\tilde{f}}
+\newcommand{\rmod}{F}
+
+\newcommand{\Set}[1]{\mathcal{#1}}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it} % The mathpzc font
+\newcommand{\slv}{\mathpzc}
+% mathpzc looks great, but it stops working on 19 Feb 2020 for no reason.
+%\newcommand{\slv}{\mathscr}
+\newcommand{\software}{\texttt}
+\DeclareMathOperator{\eff}{\mathsf{e}\;\!}
+\DeclareMathOperator{\Eff}{\mathsf{E}\;\!}
+\newcommand{\out}{{\text{out}}}
+
+
+%% Commands for revision
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\green}[1]{\textcolor{darkgreen}{#1}}
+\newcommand{\TYPO}[1]{{\color{orange}{#1}}}
+\newcommand{\MISTAKE}[1]{{\color{violet}{#1}}}
+\newcommand{\REPHRASE}[1]{{\color{darkgreen}{#1}}}
+\newcommand{\REVISE}[1]{{\color{blue}{#1}}}
+\newcommand{\REVISEred}[1]{{\color{red}{#1}}}
+\newcommand{\COMMENT}{\todo}  % Needs the todonotes package
+%\newcommand{\COMMENT}[1]{\textcolor{brown}{{\small{(comment: #1)}}}}  % This puts comments inline
+
+% Use the following if revision is finished
+%\newcommand{\TYPO}{}
+%\newcommand{\MISTAKE}{}
+%\newcommand{\REPHRASE}{}
+%\newcommand{\REVISE}{}
+%\newcommand{\REVISEred}{}
+%\newcommand{\COMMENT}[1]{}  % Input ignored.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{The Strong Law of Large Numbers and the Borel-Cantelli Lemmas}
+
+\date{\DTMnow}
+
+\author{Zaikun Zhang
+    \thanks{Email: zaikunzhang@gmail.com.}
+    %\and
+    %Author2
+    %\thanks{Information2}
+}
+
+
+\begin{document}
+
+\maketitle
+
+%\begin{abstract}
+%\end{abstract}
+
+%\textbf{Keywords}: Keyword1, Keyword2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For a sequence of random variables~$\{X_k\}$, we will say it is nonnegative if~$X_k \ge 0$ \as for
+each~$k$, and uniformly bounded if there exists a constant~$M$ such that~$|X_k| \le M$ \as for
+each~$k$. In addition, we define~$\bar{X}_k = k^{-1}\sum_{\ell=1}^k X_\ell$ for each~$k \ge 1$.
+
+
+\section{The strong law of large numbers}
+\label{sec:slln}
+
+\subsection{The \iid case}
+\label{sec:sllniid}
+
+\begin{theorem}
+    \label{th:sllniid}
+    Let~$\{X_k\}$ be a sequence of \iid random variables.
+    \begin{enumerate}
+        \item $\{\bar{X}_k\}$ converges \as to a finite random variable if and only if~$\expc(|X_1|) < \infty$.
+            When it converges \as, the limit is~$\expc(X_1)$.
+        \item If~$\{X_k\}$ is nonnegative, then~$\{\bar{X}_k\}$ converges to~$\expc(X_1)$ \as.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    (a) See \cite[Theorem~5.23]{Kallenberg_2021}.
+
+    (b) If~$\expc(X_1) < \infty$, then the convergence holds according to~(a). Otherwise, for
+    each integer $n \ge 1$, we have
+    \[
+        \liminf_{k\to \infty}\bar{X}_k \;\ge\;
+        \liminf_{k\to \infty}\frac{1}{k}\sum_{\ell=1}^k \min\{X_\ell, n\}
+        \;=\; \expc(\min\{X_1, n\}).
+    \]
+    Letting~$n\to \infty$, we have~$\liminf_{k}\bar{X}_k = \infty$ \as, because~$\expc(\min\{X_1,
+    n\}) \to \expc(X_1) = \infty$ according to Levi's monotone convergence theorem.
+    Hence~$\bar{X}_k\to \infty =\expc(X_1)$ \as
+\end{proof}
+
+\begin{remark}
+    \label{rem:pair}
+    For the ``if'' part of Theorem~\ref{th:sllniid}, see
+    also~\cite[Theorem~1]{Etemadi_1981} and~\cite[Theorem~2.4.1]{Durrett_2019}, which show that
+    the mutual independence assumption can be weakened to pairwise independence.
+\end{remark}
+
+Item~(b) of Theorem~\ref{th:sllniid} can be generalized to the following, with a very similar proof.
+
+\begin{theorem}
+    \label{th:sllniid2}
+    Let~$\{X_k\}$ be a sequence of~\iid random variables. If~$\expc(X_1^+) < \infty$
+    or~$\expc(X_1^-) < \infty$, then~$\{\bar{X}_k\}$ converges to~$\expc(X_1)$ \as
+\end{theorem}
+
+\begin{proof}
+    If~$\expc(X_1^+)<\infty$ and~$\expc(X_1^-) < \infty$, then~$\expc(|X_1|) = \infty$. Thus the
+    convergence holds. If~$\expc(X_1^+) = \infty$ and~$\expc(X_1^-) < \infty$,
+    then~$\expc(X_1) = \infty$ and the convergence can be established by considering the truncated
+    sequence $\{\min\{X_k, n\}\}$ for each integer~$n\ge 1$.
+\end{proof}
+
+
+\subsection{Martingale difference sequences}
+\label{sec:md}
+
+\begin{theorem}[Martingale convergence theorem~\mbox{\cite[Theorem 4.2.11]{Durrett_2019}}]
+    \label{th:ml1}
+    If~$\{X_k\}$ is a submartingale with~$\sup_k\expc(X_k^+)< \infty$, then~$X_k\to X$ \as for
+    some random variable~$X$ with~$\expc(|X|)<\infty$.
+\end{theorem}
+
+\begin{corollary}[~\mbox{\cite[Theorem 4.2.12]{Durrett_2019}}]
+    \label{coro:ml1}
+    If~$\{X_k\}$ is a nonnegative supermartingale, then $X_k\to X$ \as for some random variable~$X$
+    with~$\expc(X) \le \expc(X_1)$.
+\end{corollary}
+
+By Theorem~\ref{th:ml1}, if~$\{X_k\}$ is an~$L^1$-bounded martingale,
+then~$X_k\to X$~\as for some random variable~$X\in L^1$. However, the convergence may not hold
+in~$L^1$. See~\cite[Example 4.2.13]{Durrett_2019}. In contrast, the following theorem ensures
+the convergence in~$L^p$ for~$p>1$.
+
+\begin{theorem}[Martingale ~$L^p$ convergence theorem~\mbox{\cite[Theorem~4.4.6]{Durrett_2019}}] \label{th:mlp}
+    If~$p> 1$ and~$\{X_k\}$ is a martingale with~$\sup_{k\ge 1} \|X_k\|_p< \infty$,
+    then there exists a random variable~$X\in L^p$ such that~$X_k\to X$ \as and in~$L^p$.
+\end{theorem}
+
+\begin{lemma}[Kronecker's Lemma]
+    \label{lem:kronecker}
+    Let~$\{a_k\}$ be a sequence of nonnegative numbers and~$\{b_k\}$ be an increasing sequence
+    with~$b_k\to \infty$.
+    \begin{enumerate}
+        \item If~$\sum_{k=1}^\infty b_k^{-1}a_k < \infty$, then~$b_k^{-1}\sum_{\ell=1}^k a_\ell\to 0$.
+        \item If~$\sum_{k=1}^\infty a_k < \infty$, then~$b_k^{-1}\sum_{\ell=1}^k b_\ell a_\ell\to 0$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{remark}
+    \label{rem:kronecker}
+    In item~(a) of Lemma~\ref{lem:kronecker}, we trivially have~$b_k^{-1} a_k\to 0$,
+    and Kronecker's lemma strengthens it to~$b_k^{-1}\sum_{\ell=1}^k a_\ell\to 0$.
+    In item~(b), we trivially have~$b_k^{-1} \sum_{\ell=1}^k a_\ell\to 0$,
+    and Kronecker's lemma strengthens it to~$b_k^{-1}\sum_{\ell=1}^k b_\ell a_\ell\to 0$.
+\end{remark}
+
+\begin{definition}
+    \label{def:md}
+    Let $\{X_k\}$ be a sequence of random variables and~$\{\FF_k\}$ be a filtration.
+    Then~$\{X_k\}$ is called a martingale difference sequence
+    adapted to~$\{\FF_k\}$ if there exists a martingale~$\{S_k\}$ adapted to~$\{\FF_k\}$
+    with~$S_0 = 0$ such that~$X_k = S_k - S_{k-1}$ for each~$k\ge 1$, or, equivalently,
+    if~$\mathbb{E}(|X_k|) < \infty$ and $\mathbb{E}(X_k \mathrel{|} \FF_{k-1}) = 0$ \as for each $k \ge 1$.
+\end{definition}
+
+\begin{theorem}[Chow~\cite{Chow_1967}]
+    \label{th:sllnmd1}
+    Let~$\{X_k\}$ be a martingale difference sequence. If there exists a constant~$p\ge 1$ such that
+   \[
+       \sum_{k=1}^\infty k^{-p-1} \expc(|X_k|^{2p}) < \infty,
+   \]
+   then~$\bar{X}_k \to 0$ \as
+\end{theorem}
+
+\begin{remark}
+    \label{rem:chow}
+    Chow's theorem is a consequence of \cite[Theorem~2]{Chow_1960} and
+    \cite[Theorem~9]{Burkholder_1966}. Chow~\cite{Chow_1967} mentions these references without
+    specifying the theorems. See also
+    \begin{center}
+    \url{https://math.stackexchange.com/questions/4965300/}.
+    \end{center}
+\end{remark}
+
+\begin{remark}
+    \label{rem:kronecker}
+    The special case of Theorem~\ref{th:sllnmd1} with~$p=1$ can be obtained by
+    the martingale $L^p$ convergence theorem and the Kronecker Lemma.
+    Define~$Y_k \;=\;  \sum_{\ell=1}^k \ell^{-1}X_\ell$ for each~$k\ge 1$. Then~$\{Y_k\}$ is
+    a martingale. In addition, noting that
+    \[
+        \expc(X_iX_j) \;=\;  \expc(X_j\expc(X_i\mathrel{|}\FF_{i-1})) \;=\; 0, \quad i >j \ge 1,
+    \]
+    we have
+    \[
+        \expc(Y_k^2) \;=\; \sum_{\ell=1}^k \ell^{-2}\expc(X_\ell^2) \;\le\; \sum_{\ell=1}^\infty \ell^{-2}
+        \expc(X_\ell^2) \;<\; \infty.
+    \]
+    Hence~$\{Y_k\}$ is an~$L^2$-bounded martingale, and hence converges \as
+    Invoking the Kronecker lemma, we have~$\bar{X}_k \to 0$ \as
+\end{remark}
+
+\begin{theorem}[\mbox{\cite[Theorem~2.18]{Hall_Heyde_1980}}]
+    \label{th:sllnmd2}
+    If~$1\le p\le 2$ and~$\{X_k\}$ is a martingale difference sequence adapted to a filtration~$\{\FF_k\}$, then
+   \[
+       \{\bar{X}_k \to 0\} \;\supset\; \left\{ \sum_{k=1}^\infty k^{-p} \expc(|X_k|^p
+       \mathrel{|} \FF_{k-1}) < \infty \right\}.
+   \]
+   In particular, if~$\sum_{k=1}^\infty k^{-p} \expc(|X_k|^p) < \infty$, then~$\bar{X}_k \to 0$ \as
+\end{theorem}
+
+\subsection{The independent case with moment conditions}
+\label{sec:sllnindep}
+
+\begin{lemma}
+    \label{lem:expc}
+    Let~$X$ be a random and and~$p \ge 1$ be a constant.
+    \begin{enumerate}
+        \item $\expc(|X|) \le \expc(|X|^p)^{\frac{1}{p}}$.
+        \item If~$\expc(|X|) < \infty$, then~$\expc(|X - \expc(X)|^p)\le 2^p \expc(|X|^p)$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    (a) Jensen's inequality (or H\"older's inequality).
+
+    (b) By the triangle inequality, we have~$\|X - \expc(X)\|_p \le \|X\|_p + |\expc(X)| \le 2\|X\|_p$.
+\end{proof}
+
+\begin{theorem}
+    \label{th:sllnindep}
+    Let~$\{X_k\}$ be a sequence of independent random variables. If
+    either
+   \begin{equation}
+    \label{eq:sum1}
+    \sum_{k=1}^\infty k^{-p-1}\expc(|X_k|^{2p}) \;<\; \infty
+   \end{equation}
+   for a constant~$p\ge 1$, or
+   \begin{equation}
+    \label{eq:sum2}
+    \sum_{k=1}^\infty k^{-p}\expc(|X_k|^{p}) \;<\; \infty
+   \end{equation}
+   for a constant~$p\in[1, 2]$, then~$\bar{X}_k - \expc(\bar{X}_k)\to 0$ \as
+\end{theorem}
+
+\begin{proof}
+    According to Lemma~\ref{lem:expc}, we have~$\expc(|X_k|) < \infty$ for each~$k\ge 1$ in both cases.
+    Define~$Y_k = X_k - \expc(X_k)$ for each~$k\ge 1$. Then~$\{Y_k\}$ is a martingale difference
+    sequence. In addition,
+    \[
+        \expc(|Y_k|^{p}) \;\le\; 2^{p} \expc(|X_k|^p)
+    \]
+    for all~$k\ge 1$ and~$p\ge 1$. Hence~\eqref{eq:sum1} implies
+   \begin{equation}
+    \label{eq:sum1}
+    \sum_{k=1}^\infty k^{-p-1}\expc(|Y_k|^{2p}) \;<\; \infty,
+   \end{equation}
+    and~\eqref{eq:sum2} implies
+   \begin{equation}
+    \label{eq:sum2}
+    \sum_{k=1}^\infty k^{-p}\expc(|Y_k|^{p}) \;<\; \infty.
+   \end{equation}
+   In both cases, $\bar{Y}_k \to 0$ \as by Theorems~\ref{th:sllnmd1} and~\ref{th:sllnmd2}.
+   Thus~$\bar{X}_k - \expc(\bar{X}_k) \to 0$ \as
+\end{proof}
+
+
+\section{The Borel-Cantelli Lemmas}
+\label{sec:bc}
+
+\begin{theorem}[The Borel-Cantelli Lemmas]
+    \label{th:bc}
+    Let~$\{E_k\}$ be a sequence of events.
+    \begin{enumerate}
+        \item If~$\sum_{k=1}^\infty \Pr(E_k) < \infty$, then~$\Pr(E_k~\io) = 0$.
+        \item If~$\{E_k\}$ is mutually independent and~$\sum_{k=1}^\infty \Pr(E_k)
+            = \infty$, then~$\Pr(E_k~\io) = 1$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{remark}
+    \label{rem:01}
+    The Borel-Cantelli Lemmas lead to a 0-1 law: For a sequence of mutually independent
+    events~$\{E_k\}$, the probability~$\Pr(\{E_k~\io\})$ is either 0 or 1, corresponding
+    to~$\sum_{k=1}^\infty \Pr(E_k) < \infty$ or $\sum_{k=1}^\infty \Pr(E_k) = \infty$, respectively.
+\end{remark}
+
+\begin{lemma}
+    \label{lem:sumprod}
+    For a sequence~$\{x_k\} \subset [0,1)$, $\sum_{k=1}^\infty x_k = \infty$ if and only if
+     $\prod_{k=1}^\infty (1-x_k) = 0$.
+\end{lemma}
+\begin{proof}
+    If~$\sum_{k=1}^\infty x_k = \infty$, then~$\prod_{k=1}^\infty (1-x_k)\le \exp(-\sum_{k=1}^\infty
+    x_k) = 0$. If~$\sum_{k=1}^\infty x_k < \infty$, then there exists an integer~$K$ such
+    that, for each~$k\ge K$, we have~$x_k \le 1/2$ and hence~$1-x_k \ge \exp(-2x_k)$. Thus
+    $\prod_{k=K}^\infty (1-x_k) \ge \exp(-2\sum_{k=K}^\infty x_k) > 0$, implying that~$\prod_{k=1}^\infty
+    (1-x_k) > 0$.
+\end{proof}
+
+\begin{theorem}
+    \label{th:inf}
+    Let~$\{X_k\}$ be a sequence of nonnegative random variables.
+    \begin{enumerate}
+        \item If~$\sum_{k=1}^\infty\expc(X_k) < \infty$, then~$\sum_{k=1}^\infty X_k < \infty$~\as
+        \item If~$\sum_{k=1}^\infty\expc(X_k)= \infty$, then~$\sum_{k=1}^\infty X_k = \infty$~\as
+            provided that the random variables~$\{X_k\}$ are~\iid or mutually independent and
+            uniformly bounded.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    (a) By the Fubini-Tonelli theorem, we have
+    \[
+        \expc\left(\sum_{k=1}^\infty X_k\right) \;=\; \sum_{k=1}^\infty \expc(X_k) \;<\; \infty.
+    \]
+    Hence~$\sum_{k=1}^\infty X_k < \infty$~\as
+
+    (b) Suppose that~$\{X_k\}$ is \iid. By the strong law of large numbers (Theorem~\ref{th:sllniid}),
+    we have~$k^{-1} \sum_{\ell=1}^k X_\ell  \to \expc(X_1)$~\as, which is positive (possibly
+    infinite) since~$\sum_{k=1}^\infty\expc(X_k) = \infty$. Hence~$\sum_{k=1}^\infty X_k = \infty$~\as
+
+    Now suppose that~$\{X_k\}$ is a sequence of mutually independent and uniformly bounded random variables.
+    Without loss of generality, we assume that~$X_k< 1$ \as for each~$k\ge 1$. Then~$\expc(X_k) < 1$
+    for each~$k\ge 1$. According to Lemma~\ref{lem:sumprod}, $\sum_{k=1}^\infty \expc(X_k) = \infty$
+    implies that~$\prod_{k=1}^\infty [1-\expc(X_k)] = 0$.
+    Due to the independence of~$\{X_k\}$, we have
+    \[
+        \expc\left[\prod_{k=1}^\infty (1-X_k)\right]
+        \;=\; \prod_{k=1}^\infty \expc(1-X_k)
+        \;=\;  \prod_{k=1}^\infty [1-\expc(X_k)]
+        \;=\; 0.
+    \]
+    Thus~$\prod_{k=1}^\infty (1-X_k) = 0$~\as since this is a nonnegative random variable,
+    implying that~$\sum_{k=1}^\infty X_k = \infty$~\as according to Lemma~\ref{lem:sumprod}.
+\end{proof}
+
+\begin{remark}
+    \label{rem:bc}
+    The Borel-Cantelli Lemmas are special cases of Theorem~\ref{th:gbc} with~$X_k = \ind(E_k)$.
+    Note that~$\{E_k~\io\} = \{\sum_{k=1}^\infty X_k = \infty\}$.
+\end{remark}
+
+The following theorem generalizes item~(b) of Theorem~\ref{th:inf} in the uniformly bounded case.
+
+\begin{theorem}
+    \label{th:gbc}
+    Let~$\{X_k\}$ be a sequence of uniformly bounded random variables adapted to
+    a filtration~$\{\FF_k\}$.
+    Define
+    \begin{equation}
+        \nonumber
+        %\label{eq:gbc}
+        A \;=\; \left\{ \sum_{k=1}^\infty X_k =\infty \right\}
+        \quad \text{and} \quad
+        B \;=\;  \left\{ \sum_{k=1}^\infty \expc(X_k\mathrel{|}\FF_{k-1}) =\infty \right\}.
+    \end{equation}
+    \begin{enumerate}
+        \item \label{it:a}If~$\{\expc(X_k\mathrel{|}\FF_{k-1})\}$ is
+            nonnegative, then $\Pr(A \cap B^\comp) = 0$.
+        \item If~$\{X_k\}$ is nonnegative,
+            then~$\Pr((A \cap B^\comp) \cup (B\cap A^\comp)) = 0$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    This proof is essentially the same as that of~\cite[Theorem~4.3.4]{Durrett_2019}.
+    Define
+    \[
+        Y_k \;=\;  \sum_{\ell = 1}^{k} X_\ell - \sum_{\ell = 1}^{k} \expc(X_\ell\mathrel{|}
+        \FF_{\ell-1}).
+    \]
+    Then~$\{Y_k\}$ is a martingale with respect to the filtration~$\{\FF_k\}$, and it has bounded
+    increments if~$\{X_k\}$ is uniformly bounded.
+    Hence~$\Pr(C\cup D) = 1$ with
+    \begin{align*}
+        C \;=\; & \left\{ \lim_{k\to\infty} Y_k~\text{exists and is finite} \right\}, \\
+        D \;=\; & \left\{ \liminf_{k\to \infty} Y_k = -\infty~\text{and}~\limsup_{k\to \infty} Y_k = \infty \right\}.
+    \end{align*}
+    It is clear that
+    \begin{equation}
+        \label{eq:C}
+        A\cap C \;=\; B\cap C.
+    \end{equation}
+
+    Suppose that~$\{\expc(X_k\mathrel{|}\FF_{k-1}\}$ is nonnegative. Then
+        \[
+            B^\comp \;=\;  \left\{ \sum_{k=1}^\infty \expc(X_k\mathrel{|}\FF_{k-1}) <\infty \right\}.
+        \]
+    Therefore, we can check that
+    \begin{equation}
+        \label{eq:D1}
+        A \cap B^\comp \cap D \;=\; \emptyset.
+    \end{equation}
+    Combining~\eqref{eq:C} and~\eqref{eq:D1}, we have
+    \[
+        (A \cap B^\comp) \cap (C\cup D) \;=\; \emptyset,
+    \]
+    which implies that~$\Pr(A\cap B^\comp) = 0$ since~$\Pr(C\cap D) = 1$.
+
+    If~$\{X_k\}$ is nonnegative,  then so is~$\{\expc(X_k\mathrel{|}\FF_{k-1})\}$,
+    and hence~$\Pr(A\cap B^\comp) = 0$. In addition, we have
+    \[
+        A^\comp \;=\;  \left\{ \sum_{k=1}^\infty X_k <\infty \right\},
+    \]
+    which implies~$\Pr(B\cap A^\comp) = 0$ in a way similar to the above.
+    Thus~$\Pr((A \cap B^\comp) \cup (B\cap A^\comp)) = 0$.
+\end{proof}
+
+\begin{remark}
+    \label{rem:equal}
+     $\Pr((A \cap B^\comp) \cup (B\cap A^\comp)) = 0$ means that the symmetric difference between
+     the events~$A$ and~$B$ is a null event, or the two events are equal except for a null event.
+\end{remark}
+
+\begin{remark}
+    \label{rem:durret}
+    \cite[Theorem~4.3.4]{Durrett_2019} is a special case of Theorem~\ref{th:gbc}, where~$X_k
+    = \ind(E_k)$ with an event~$E_k \in \FF_k$ for each~$k\ge 1$.
+    However, the conclusion of~\cite[Theorem~4.3.4]{Durrett_2019}
+    is
+    \begin{equation}
+        \label{eq:durret}
+        \{E_k~\io\} \;=\; \left\{\sum_{k=1}^\infty \Pr(E_k\mathrel{|}\FF_{k-1})
+        = \infty\right\},
+    \end{equation}
+    which seems not completely rigorous. The correct conclusion should be that the events on the
+    left and right sides of~\eqref{eq:durret} are equal except for a null event.
+    In addition, in the second line of the proof of~\cite[Theorem~4.3.4]{Durrett_2019},
+    the~$A$ and~$B$ seem to be reversed. Finally, the proof refers to Doob's decomposition
+    theorem~(\cite[Theorem~4.3.2]{Durrett_2019}), which seems not necessary.
+\end{remark}
+
+The following proposition shows that~$\Pr(B\cap A^\comp)$ is not necessarily zero in
+item~\ref{it:a} of Theorem~\ref{th:gbc}.
+\begin{proposition}
+    \label{prop:sum}
+    Let $\{X_k\}$ be a sequence of mutually independent random variables taking either $1$ or $-1$ with
+$\mathbb{E}(X_k) = Ck^{-\alpha}$ for each $k\ge 1$,
+where $C$ and $\alpha$ are positive constants.
+Then, almost surely,
+\[
+\liminf_{k\to \infty} \sum_{\ell=1}^k X_\ell \;=\;
+\begin{cases}
++\infty & \text{ if } \alpha < \dfrac{1}{2}, \\[2ex]
+-\infty & \text{ if } \alpha \ge \dfrac{1}{2}.
+\end{cases}
+\]
+\end{proposition}
+
+\begin{proof}
+According to Kolmogorov's iterated law of logarithm~\cite{Kolmogoroff_1929} (see
+also~\cite[Theorems~7.1--7.3]{Petrov_1995}), we have
+\begin{equation}
+    \label{eq:kolmogorov}
+    \liminf_{k\to\infty} \frac{\sum_{\ell=1}^k [X_\ell -\expc(X_\ell)]}{\sqrt{2B_k\log\log B_k}} \; =\; -1,
+\end{equation}
+where~$B_k = \sum_{\ell=1}^k \var(X_\ell)$. The law is applicable because~$B_k\to \infty$
+and
+\[
+\|X_k-\expc(X_k)\|_\infty = o(\sqrt{B_k/\log\log B_k}).
+\]
+Since~$B_k = \sum_{\ell=1}^k (1-1/\ell)$, it is clear that~$(B_k \log\log B_k)/(k\log\log k) \to 1$.
+Hence~\eqref{eq:kolmogorov} implies
+\begin{equation}
+    \label{eq:sumXdE}
+    \liminf_{k\to\infty} \frac{\sum_{\ell=1}^k [X_\ell -\expc(X_\ell)]}{\sqrt{2k\log\log k}} \; =\; -1.
+\end{equation}
+Meanwhile, since~$\expc(X_k) = Ck^{-\alpha}$, we have
+\begin{equation}
+    \label{eq:sumE}
+    \lim_{k\to \infty} \frac{\sum_{\ell=1}^\infty \expc(X_\ell)}{\sqrt{2k\log\log k}} \;=\;
+    \begin{cases}
+        +\infty & \text{ if } \alpha < \dfrac{1}{2}, \\[2ex]
+        0 & \text{ if } \alpha \ge \dfrac{1}{2}.
+    \end{cases}
+\end{equation}
+Combining~\eqref{eq:sumXdE} and~\eqref{eq:sumE}, we have
+\[
+    \liminf_{k\to\infty} \frac{\sum_{\ell=1}^k X_\ell}{\sqrt{2k\log\log k}} \; =\;
+    \begin{cases}
+        +\infty & \text{ if } \alpha < \dfrac{1}{2}, \\[2ex]
+        -1 & \text{ if } \alpha \ge \dfrac{1}{2},
+    \end{cases}
+    \]
+    which implies the desired conclusion.
+\end{proof}
+
+\begin{remark}
+    \label{rem:ms}
+    For more discussions on Proposition~\ref{prop:sum}, including a perspective from the
+    Kakutani's Dichotomy theorem~\cite{Kakutani_1948}, see
+    \begin{center}
+        \url{https://math.stackexchange.com/questions/4968996/}.
+    \end{center}
+\end{remark}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% References
+% Include references only if there are citations.
+\ifnum\value{cite}>0
+    \small
+    \bibliography{\bibfile}
+    \bibliographystyle{plain}
+\fi
+
+%% The end
+\end{document}
