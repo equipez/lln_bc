@@ -1242,3 +1242,7 @@ sumprod
 supermartingale
 supset
 Tonelli
+cov
+mdl
+SSLN
+kolmogoro
