@@ -1,4 +1,4 @@
-% bib file generated according to lln_bc.aux at 2024.10.13-13.43.29.
+% bib file generated according to borel_cantelli.aux at 2024.10.12-23.18.42.
 %
 % The recommended format of the bib entry label is:
 %
@@ -50,15 +50,6 @@
     title   = {On a strong law of large numbers for martingales},
     volume  = {38},
     year    = {1967},
-}
-
-@book{Chung_2001,
-    author    = {Chung, K. L.},
-    publisher = {Academic Press},
-    address   = {San Diego, CA},
-    edition   = {Third},
-    title     = {A Course in Probability Theory},
-    year      = {2001},
 }
 
 @book{Durrett_2019,

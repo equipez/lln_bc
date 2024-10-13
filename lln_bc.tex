@@ -471,9 +471,9 @@ the convergence in~$L^p$ for~$p>1$.
 \begin{remark}
     \label{rem:kronecker}
     In item~(a) of Lemma~\ref{lem:kronecker}, we trivially have~$b_k^{-1} a_k\to 0$,
-    and Kronecker's lemma strengthens it to~$b_k^{-1}\sum_{\ell=1}^k a_\ell\to 0$.
+    and Kronecker's Lemma strengthens it to~$b_k^{-1}\sum_{\ell=1}^k a_\ell\to 0$.
     In item~(b), we trivially have~$b_k^{-1} \sum_{\ell=1}^k a_\ell\to 0$,
-    and Kronecker's lemma strengthens it to~$b_k^{-1}\sum_{\ell=1}^k b_\ell a_\ell\to 0$.
+    and Kronecker's Lemma strengthens it to~$b_k^{-1}\sum_{\ell=1}^k b_\ell a_\ell\to 0$.
 \end{remark}
 
 \begin{definition}
@@ -546,7 +546,7 @@ the convergence in~$L^p$ for~$p>1$.
         \expc(Y_k^2) \;=\; \sum_{\ell=1}^k \ell^{-2}\expc(X_\ell^2) \;\le\; \sum_{\ell=1}^\infty \ell^{-2}
         \expc(X_\ell^2) \;<\; \infty.
     \]
-    Hence~$\{Y_k\}$ is an~$L^2$-bounded martingale, and hence converges \as
+    Thus~$\{Y_k\}$ is bounded in $L^2$ and hence converges \as
     Invoking Kronecker's Lemma, we have~$\bar{X}_k \to 0$ \as
 \end{proof}
 
@@ -623,11 +623,11 @@ the convergence in~$L^p$ for~$p>1$.
         \expc(Y_k^2) \;=\; \sum_{\ell=1}^k \var(X_\ell)
         \;\le\; \sum_{\ell=1}^\infty \var(X_\ell) \;<\; \infty.
     \]
-    Thus~$\{Y_k\}$ converges \as Combining this with the convergence of~$\sum_{k}^\infty \expc(X_k)$,
+    Thus~$\{Y_k\}$ converges \as Combining this with the convergence of~$\sum_{k=1}^\infty \expc(X_k)$,
     we obtain the almost sure convergence of~$\sum_{k=1}^\infty X_k$.
 \end{remark}
 
-The following proposition is sometimes known as ``Kolmogorov's Criterion of SSLN''.
+The following proposition is sometimes known as `` Kolmogorov's Criterion of SSLN''.
 It follows from Theorem~\ref{th:kolmogorov2} and Kronecker's Lemma
 (consider the sequence~$\{\sum_{\ell=1}^k\ell^{-1}X_\ell\}$).
 It is also a special case of Corollary~\ref{coro:mdl2} and Theorem~\ref{th:sllnindep}.
@@ -637,6 +637,63 @@ It is also a special case of Corollary~\ref{coro:mdl2} and Theorem~\ref{th:sllni
     Let~$\{X_k\}$ be a sequence of independent random variables with~$\expc(X_k)=0$ for each~$k\ge 0$.
     If~$\sum_{k=1}^\infty k^{-2}\var(X_k) < \infty$, then~$\bar{X}_k\to 0$ \as
 \end{corollary}
+
+As a side note, we have the following result due to L\'evy.
+
+\begin{theorem}[L\'evy~\mbox{\cite[Theorem 5.3.4]{Chung_2001}}]
+    \label{th:levy}
+    If~$\{X_k\}$ is a sequence of independent random variables
+    then~$\sum_{k=1}^\infty X_k$ converges \as if and only if it converges in probability.
+\end{theorem}
+
+\begin{question}
+    What if~$\sum_{k=1}^\infty X_k$ diverges to infinity in probability or \as?
+\end{question}
+
+Note that Theorem~\ref{th:levy} cannot be extended to the case with~$\{X_k\}$ being a martingale
+difference sequence. In other words, for a martingale, the convergence in probability does not imply
+the almost sure convergence, as illustrated by the following example.
+
+\begin{example}[\mbox{~\cite[Example 4.2.14]{Durrett_2019}}]
+    \label{exp:durret}
+    Let~$\{A_k\}$ and~$\{B_k\}$ be two sequences of \iid random variables with
+    \[
+        \Pr(A_k = 1) = \frac{1}{k}, \quad \Pr(A_k = 0) = 1-\frac{1}{k},
+        \quad \text{and} \quad
+        \Pr(B_k=1) = \frac{1}{2} = \Pr(B_k = -1).
+    \]
+    Additionally, we require that~$\{A_k\}$ and~$\{B_k\}$ are independent of each other.
+    Define~$X_1 = 0$ and
+    \[
+        X_{k+1} \;=\;  A_k[B_k \ind(X_k=0) + k X_k], \quad k \ge 1.
+    \]
+    Then~$X_k$ is independent of $\{A_\ell\}_{\ell \ge k}$, and~$\{B_\ell\}_{\ell\ge k}$  for
+    each~$k\ge 1$. Thus
+    \[
+        \expc(X_{k+1} \mathrel{|} X_1, \ldots, X_k)
+        \;=\;
+        \expc(A_k) [\expc(B_k) \ind(X_k=0) + k X_k]
+        \;=\; X_k, \quad k \ge 1.
+    \]
+    Hence~$\{X_k\}$ is a martingale. Noting that~$B_k \ind(X_k=0) + k X_k \neq 0$, we have
+    \[
+        \{X_{k+1} =0\} \;=\; \{A_k = 0\},
+    \]
+    implying that the events $\{X_k = 0\}$ are mutually
+    independent of each other. In addition,
+    \[
+        \Pr(X_{k+1} = 0) \;=\; \Pr(A_k = 0) \;=\;  1-\frac{1}{k}.
+    \]
+    Thus~$X_k \to 0$ in probability. However, the Borel-Cantelli Lemma
+    \textnormal{(}Theorem~\ref{th:bc}\textnormal{)}
+    ensures that~$\Pr(X_k \neq 0~\io) = 1$, preventing the almost sure convergence,
+    because~$\{X_k\}$ takes only integer values.
+\end{example}
+
+For a sequence of independent random variables, the convergence in probability does not imply
+the  almost sure convergence either. This can be seen by considering a sequence~$\{X_k\}$ with~$\Pr(X_k = 1) = 1/k$
+and~$\Pr(X_k = 0) = 1-1/k$ independently for each~$k\ge 1$ and applying the same argument as the
+end of Example~\ref{exp:durret}.
 
 
 \section{The Borel-Cantelli Lemmas}
@@ -684,7 +741,7 @@ It is also a special case of Corollary~\ref{coro:mdl2} and Theorem~\ref{th:sllni
 \end{theorem}
 
 \begin{proof}
-    (a) By the Fubini-Tonelli theorem, we have
+    (a) By the Fubini-Tonelli theorem (or Levi's monotone convergence theorem), we have
     \[
         \expc\left(\sum_{k=1}^\infty X_k\right) \;=\; \sum_{k=1}^\infty \expc(X_k) \;<\; \infty.
     \]
