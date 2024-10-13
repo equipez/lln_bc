@@ -1,3 +1,5 @@
+backup/
+ref.bib
 *.dvi
 *.log
 *.aux
