@@ -417,6 +417,14 @@ each~$k$. In addition, we define~$\bar{X}_k = k^{-1}\sum_{\ell=1}^k X_\ell$ for 
     the mutual independence assumption can be weakened to pairwise independence.
 \end{remark}
 
+\begin{remark}
+    \label{rem:kolmogorov01}
+    Suppose that~$\{X_k\}$ is a sequence of mutually independent random variables.
+    If~$\{\bar{X}_k\}$ converges \as, then the limit is a constant \as according to Kolmogorov's
+    zero-one law.
+    For the same reason, if~$\{X_k\}$ converges \as, then its limit is a constant \as.
+\end{remark}
+
 Item~(b) of Theorem~\ref{th:sllniid} can be generalized to the following, with a very similar proof.
 
 \begin{theorem}
@@ -433,7 +441,7 @@ Item~(b) of Theorem~\ref{th:sllniid} can be generalized to the following, with a
 \end{proof}
 
 
-\subsection{Martingale difference sequences}
+\subsection{The martingale-difference case}
 \label{sec:md}
 
 \begin{theorem}[Martingale convergence theorem~\mbox{\cite[Theorem 4.2.11]{Durrett_2019}}]
@@ -480,8 +488,8 @@ the convergence in~$L^p$ for~$p>1$.
     \label{def:md}
     Let $\{X_k\}$ be a sequence of random variables and~$\{\FF_k\}$ be a filtration.
     Then~$\{X_k\}$ is called a martingale difference sequence
-    adapted to~$\{\FF_k\}$ if there exists a martingale~$\{S_k\}$ adapted to~$\{\FF_k\}$
-    with~$S_0 = 0$ such that~$X_k = S_k - S_{k-1}$ for each~$k\ge 1$, or, equivalently,
+    adapted to~$\{\FF_k\}$ if there exists a martingale~$\{S_k\}_{k\ge 0}$ adapted to~$\{\FF_k\}$
+    such that~$X_k = S_k - S_{k-1}$ for each~$k\ge 1$, or, equivalently,
     if~$\mathbb{E}(|X_k|) < \infty$ and $\mathbb{E}(X_k \mathrel{|} \FF_{k-1}) = 0$ \as for each $k \ge 1$.
 \end{definition}
 
@@ -521,12 +529,46 @@ the convergence in~$L^p$ for~$p>1$.
 
 \begin{theorem}[\mbox{\cite[Theorem~2.18]{Hall_Heyde_1980}}]
     \label{th:sllnmd2}
-    If~$1\le p\le 2$ and~$\{X_k\}$ is a martingale difference sequence adapted to a filtration~$\{\FF_k\}$, then
+    If~$1\le p\le 2$ and~$\{X_k\}$ is a martingale difference sequence adapted to a filtration~$\{\FF_k\}$,
+    then~$\bar{X}_k \to 0$ \as on the set
    \[
-       \{\bar{X}_k \to 0\} \;\supset\; \left\{ \sum_{k=1}^\infty k^{-p} \expc(|X_k|^p
+       \left\{ \sum_{k=1}^\infty k^{-p} \expc(|X_k|^p
        \mathrel{|} \FF_{k-1}) < \infty \right\}.
    \]
    In particular, if~$\sum_{k=1}^\infty k^{-p} \expc(|X_k|^p) < \infty$, then~$\bar{X}_k \to 0$ \as
+\end{theorem}
+
+Theorem~\ref{th:sllnmd2} follows from Kronecker's Lemma and the following theorem due to
+Chow~\cite{Chow_1965}. It generalizes the Kolmogorov's two-series theorem
+(Theorem~\ref{th:kolmogorov2}) to martingale difference sequences.
+
+\begin{theorem}[\mbox{\cite[Corollary~5]{Chow_1965}}]
+    \label{th:kolmogorov2c}
+    If~$1\le p\le 2$ and $\{X_k\}$ is a martingale difference sequence adapted to a filtration~$\{\FF_k\}$,
+    then~$\sum_{k=1}^\infty X_k$ converges \as on the set
+    \[
+    \left\{\sum_{k=1}^p \expc(|X_k|^p\mathrel{|}\FF_{k-1}) < \infty\right\}.
+    \]
+    In particular, if~$\sum_{k=1}^\infty \expc(|X_k|^p) < \infty$, then~$\sum_{k=1}^\infty X_k$
+    converges \as
+\end{theorem}
+
+Theorem~\ref{th:kolmogorov2c} in turn is a consequence of the following lemma, which is a conditional
+version of Kolmogorov's three-series theorem (Theorem~\ref{th:kolmogorov3}). See~\cite[pages~33-36]{Hall_Heyde_1980}
+for more details.
+
+\begin{theorem}[\mbox{\cite[Theorem~2.16]{Hall_Heyde_1980}}]
+    \label{th:kolmogorov3c}
+    Let~$\{X_k\}$ be a sequence of random variables adapted to a filtration~$\{\FF_k\}$, $c$ be a
+    positive constant, and~$Y_k = X_k\ind(X_k \le c)$ for each~$k\ge 1$. Then~$\sum_{k=1}^\infty X_k$
+    converges \as on the set
+    \[
+        \left\{
+            \sum_{k=1}^\infty \ind(X_k > c \mathrel{|} \FF_{k-1}) < \infty,
+            \sum_{k=1}^\infty \expc(Y_k \mathrel{|} \FF_{k-1})~\text{converges},
+            \sum_{k=1}^\infty \var(|Y_k| \mathrel{|} \FF_{k-1}) < \infty
+        \right\}.
+    \]
 \end{theorem}
 
 \begin{corollary}
@@ -606,12 +648,11 @@ the convergence in~$L^p$ for~$p>1$.
    Thus~$\bar{X}_k - \expc(\bar{X}_k) \to 0$ \as
 \end{proof}
 
-\begin{theorem}[Kolmogorov's two series theorem~\mbox{\cite[Theorems~2.5.6 and~2.5.8]{Durrett_2019}}]
+\begin{theorem}[Kolmogorov's two-series theorem~\mbox{\cite[Theorems~2.5.6]{Durrett_2019}}]
     \label{th:kolmogorov2}
     Let~$\{X_k\}$ be a sequence of independent random variables.
-    If both~$\sum_{k=1}^\infty \expc(X_k)$ and
-    $\sum_{k=1}^\infty \var(X_k)$ \textnormal{(}or $\sum_{k=1}^\infty \expc(X_k^2)$\textnormal{)}
-    converge, then~$\sum_{k=1}^\infty X_k$ converges \as
+    Then~$\sum_{k=1}^\infty X_k$ converges \as if the two series~$\sum_{k=1}^\infty \expc(X_k)$
+    and~$\sum_{k=1}^\infty \var(X_k)$ both converge.
 \end{theorem}
 
 \begin{remark}
@@ -627,7 +668,15 @@ the convergence in~$L^p$ for~$p>1$.
     we obtain the almost sure convergence of~$\sum_{k=1}^\infty X_k$.
 \end{remark}
 
-The following proposition is sometimes known as `` Kolmogorov's Criterion of SSLN''.
+\begin{theorem}[Kolmogorov's three-series theorem~\mbox{\cite[Theorems~2.5.8]{Durrett_2019}}]
+    \label{th:kolmogorov3}
+    Let~$\{X_k\}$ be a sequence of independent random variables, $c$ be a positive constant,
+    and~$Y_k = X_k\ind(|X_k| \le c)$. Then~$\sum_{k=1}^\infty X_k$ converges \as \textbf{if and
+    only if} the three series~$\sum_{k=1}^\infty \Pr(|X_k| > c)$, $\sum_{k=1}^\infty \expc(Y_k)$, and
+    $\sum_{k=1}^\infty \var(Y_k)$ all converge.
+\end{theorem}
+
+The following proposition is sometimes known as ``Kolmogorov's Criterion of SSLN''.
 It follows from Theorem~\ref{th:kolmogorov2} and Kronecker's Lemma
 (consider the sequence~$\{\sum_{\ell=1}^k\ell^{-1}X_\ell\}$).
 It is also a special case of Corollary~\ref{coro:mdl2} and Theorem~\ref{th:sllnindep}.
@@ -689,6 +738,10 @@ the almost sure convergence, as illustrated by the following example.
     ensures that~$\Pr(X_k \neq 0~\io) = 1$, preventing the almost sure convergence,
     because~$\{X_k\}$ takes only integer values.
 \end{example}
+
+\begin{question}
+    What if~$\{X_k\}$ is a martingale with bounded increments?
+\end{question}
 
 For a sequence of independent random variables, the convergence in probability does not imply
 the  almost sure convergence either. This can be seen by considering a sequence~$\{X_k\}$ with~$\Pr(X_k = 1) = 1/k$
