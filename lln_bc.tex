@@ -458,7 +458,7 @@ Item~(b) of Theorem~\ref{th:sllniid} can be generalized to the following, with a
 
 By Theorem~\ref{th:ml1}, if~$\{X_k\}$ is an~$L^1$-bounded martingale,
 then~$X_k\to X$~\as for some random variable~$X\in L^1$. However, the convergence may not hold
-in~$L^1$. See~\cite[Example 4.2.13]{Durrett_2019}. In contrast, the following theorem ensures
+in~$L^1$. See~\cite[Example~4.2.13]{Durrett_2019}. In contrast, the following theorem ensures
 the convergence in~$L^p$ for~$p>1$.
 
 \begin{theorem}[Martingale ~$L^p$ convergence theorem~\mbox{\cite[Theorem~4.4.6]{Durrett_2019}}] \label{th:mlp}
@@ -554,7 +554,7 @@ Chow~\cite{Chow_1965}. It generalizes the Kolmogorov's two-series theorem
 \end{theorem}
 
 Theorem~\ref{th:kolmogorov2c} in turn is a consequence of the following lemma, which is a conditional
-version of Kolmogorov's three-series theorem (Theorem~\ref{th:kolmogorov3}). See~\cite[pages~33-36]{Hall_Heyde_1980}
+version of Kolmogorov's three-series theorem (Theorem~\ref{th:kolmogorov3}). See~\cite[pages~33--36]{Hall_Heyde_1980}
 for more details.
 
 \begin{theorem}[\mbox{\cite[Theorem~2.16]{Hall_Heyde_1980}}]
@@ -728,14 +728,14 @@ the almost sure convergence, as illustrated by the following example.
     \[
         \{X_{k+1} =0\} \;=\; \{A_k = 0\},
     \]
-    implying that the events $\{X_k = 0\}$ are mutually
+    implying that the events $\{X_k = 0\}$ \textnormal{(}$k = 1, 2, \ldots$\textnormal{)} are mutually
     independent of each other. In addition,
     \[
-        \Pr(X_{k+1} = 0) \;=\; \Pr(A_k = 0) \;=\;  1-\frac{1}{k}.
+        \Pr(X_{k+1} \neq 0) \;=\; 1-\Pr(A_k = 0) \;=\;  \frac{1}{k}.
     \]
-    Thus~$X_k \to 0$ in probability. However, the Borel-Cantelli Lemma
+    Thus~$X_k\to 0$ in probability, while the second Borel-Cantelli Lemma
     \textnormal{(}Theorem~\ref{th:bc}\textnormal{)}
-    ensures that~$\Pr(X_k \neq 0~\io) = 1$, preventing the almost sure convergence,
+    ensures that~$\Pr(X_k \neq 0~\io) = 1$, preventing the almost sure convergence to zero,
     because~$\{X_k\}$ takes only integer values.
 \end{example}
 
