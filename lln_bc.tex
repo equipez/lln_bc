@@ -792,8 +792,8 @@ end of Example~\ref{exp:durret}.
     \begin{enumerate}
         \item If~$\sum_{k=1}^\infty\expc(X_k) < \infty$, then~$\sum_{k=1}^\infty X_k < \infty$~\as
         \item If~$\sum_{k=1}^\infty\expc(X_k)= \infty$, then~$\sum_{k=1}^\infty X_k = \infty$~\as
-            provided that the random variables~$\{X_k\}$ are~\iid or mutually independent and
-            uniformly bounded.
+            provided that the random variables~$\{X_k\}$ are
+            either mutually independent and uniformly bounded or~\iid.
     \end{enumerate}
 \end{theorem}
 
@@ -804,11 +804,7 @@ end of Example~\ref{exp:durret}.
     \]
     Hence~$\sum_{k=1}^\infty X_k < \infty$~\as
 
-    (b) Suppose that~$\{X_k\}$ is \iid. By the strong law of large numbers (Theorem~\ref{th:sllniid}),
-    we have~$k^{-1} \sum_{\ell=1}^k X_\ell  \to \expc(X_1)$~\as, which is positive (possibly
-    infinite) since~$\sum_{k=1}^\infty\expc(X_k) = \infty$. Hence~$\sum_{k=1}^\infty X_k = \infty$~\as
-
-    Now suppose that~$\{X_k\}$ is a sequence of mutually independent and uniformly bounded random variables.
+    (b) Suppose that~$\{X_k\}$ is a sequence of mutually independent and uniformly bounded random variables.
     Without loss of generality, we assume that~$X_k< 1$ \as for each~$k\ge 1$. Then~$\expc(X_k) < 1$
     for each~$k\ge 1$. According to Lemma~\ref{lem:sumprod}, $\sum_{k=1}^\infty \expc(X_k) = \infty$
     implies that~$\prod_{k=1}^\infty [1-\expc(X_k)] = 0$.
@@ -821,6 +817,10 @@ end of Example~\ref{exp:durret}.
     \]
     Thus~$\prod_{k=1}^\infty (1-X_k) = 0$~\as since this is a nonnegative random variable,
     implying that~$\sum_{k=1}^\infty X_k = \infty$~\as according to Lemma~\ref{lem:sumprod}.
+
+    Now suppose that~$\{X_k\}$ is \iid. By the strong law of large numbers (Theorem~\ref{th:sllniid}),
+    we have~$k^{-1} \sum_{\ell=1}^k X_\ell  \to \expc(X_1)$~\as, which is positive (possibly
+    infinite) since~$\sum_{k=1}^\infty\expc(X_k) = \infty$. Hence~$\sum_{k=1}^\infty X_k = \infty$~\as
 \end{proof}
 
 \begin{remark}
@@ -908,7 +908,7 @@ The following theorem generalizes item~(b) of Theorem~\ref{th:inf} in the unifor
 
 \begin{remark}
     \label{rem:durret}
-    \cite[Theorem~4.3.4]{Durrett_2019} is a special case of Theorem~\ref{th:gbc}, where~$X_k
+    \cite[Theorem~4.3.4]{Durrett_2019} (also known as the Conditional Borel–Cantelli Lemma) is a special case of Theorem~\ref{th:gbc}, where~$X_k
     = \ind(E_k)$ with an event~$E_k \in \FF_k$ for each~$k\ge 1$.
     However, the conclusion of~\cite[Theorem~4.3.4]{Durrett_2019}
     is
