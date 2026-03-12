@@ -825,11 +825,13 @@ end of Example~\ref{exp:durret}.
 
 \begin{remark}
     \label{rem:bc}
-    The Borel-Cantelli Lemmas are special cases of Theorem~\ref{th:gbc} with~$X_k = \ind(E_k)$.
+    The Borel-Cantelli Lemmas are special cases of Theorem~\ref{th:inf} with~$X_k = \ind(E_k)$.
     Note that~$\{E_k~\io\} = \{\sum_{k=1}^\infty X_k = \infty\}$.
 \end{remark}
 
 The following theorem generalizes item~(b) of Theorem~\ref{th:inf} in the uniformly bounded case.
+It can be found in~\cite[Propositions~(32) and~(39)]{Freedman_1973}
+and~\cite[Theorem~46]{Dellacherie_Meyer_1982}.
 
 \begin{theorem}
     \label{th:gbc}
@@ -846,7 +848,7 @@ The following theorem generalizes item~(b) of Theorem~\ref{th:inf} in the unifor
     \begin{enumerate}
         \item \label{it:a}If~$\{\expc(X_k\mathrel{|}\FF_{k-1})\}$ is
             nonnegative, then $\Pr(A \cap B^\comp) = 0$.
-        \item If~$\{X_k\}$ is nonnegative,
+        \item \label{it:b}If~$\{X_k\}$ is nonnegative,
             then~$\Pr((A \cap B^\comp) \cup (B\cap A^\comp)) = 0$.
     \end{enumerate}
 \end{theorem}
@@ -907,9 +909,21 @@ The following theorem generalizes item~(b) of Theorem~\ref{th:inf} in the unifor
 \end{remark}
 
 \begin{remark}
+    \label{rem:nonneg}
+    If~$\{X_k\}$ is a sequence of nonnegative random variables but not necessarily uniformly bounded,
+    then~$\Pr(A\cap B^\comp) = 0$
+    still holds (see~\cite[Proposition~(32)]{Freedman_1973} and~\cite[Theorem~46]{Dellacherie_Meyer_1982}), but~$\Pr(B\cap A^\comp) = 0$ may fail. For example, let~$X_k = k \ind(E_k)$ for
+    each~$k\ge 1$, where~$\{E_k\}$ is a sequence of mutually independent events with~$\Pr(E_k)
+    = 1/k^2$. Then~$\sum_{k=1}^\infty X_k < \infty$ \as, while~$\sum_{k=1}^\infty
+    \expc(X_k\mathrel{|}\FF_{k-1}) = \sum_{k=1}^\infty k^{-1}= \infty$.
+\end{remark}
+
+
+\begin{remark}
     \label{rem:durret}
     \cite[Theorem~4.3.4]{Durrett_2019} (also known as the Conditional Borel–Cantelli
-    Lemma; see~\cite[Theorem~12.15]{Williams_1991} and~\cite[Exercise~11.2.7]{Klenke_2020}) is a special case of Theorem~\ref{th:gbc}, where~$X_k
+    Lemma, due to L\'{e}vy~\cite[Corollaire~68]{Levy_1937};
+    see also~\cite[Theorem~12.15]{Williams_1991} and~\cite[Exercise~11.2.7]{Klenke_2020}) is a special case of Theorem~\ref{th:gbc}, where~$X_k
     = \ind(E_k)$ with an event~$E_k \in \FF_k$ for each~$k\ge 1$.
     However, the conclusion of~\cite[Theorem~4.3.4]{Durrett_2019}
     is
@@ -989,6 +1003,47 @@ Combining~\eqref{eq:sumXdE} and~\eqref{eq:sumE}, we have
     \end{center}
 \end{remark}
 
+\section{Increasing process with bounded jumps}
+\label{sec:ipbj}
+
+\begin{theorem}[Doob's decomposition~\mbox{\cite[Theorem~4.3.2]{Durrett_2019}}]
+    \label{th:doobd}
+    Any submartingale~$\{X_k\}$ can be written in a unique way as $X_k = M_k + A_k$,
+    where~$\{M_k\}$ is a martingale and~$\{A_k\}$ is a predictable increasing
+    sequence with~$A_0 = 0$.
+\end{theorem}
+
+\begin{remark}
+    \label{rem:doobd}
+    More precisely, in Theorem~\ref{th:doobd},~$\{X_k\}$ and~$\{M_k\}$ are adapted to
+    a filtration~$\{\FF_k\}$;~$A_k$ is~$\FF_{k-1}$-measurable
+    and~$A_{k+1}\ge A_k$ for each~$k\ge 1$. The sequence~$\{A_k\}$ is called the compensator
+    of~$\{X_k\}$. Indeed, the compensator can be explicitly expressed as
+    \[
+        A_0 = 0
+        \qquad \text{and} \qquad
+        A_k \;=\; \sum_{\ell=1}^k \expc(X_\ell - X_{\ell-1}\mathrel{|}\FF_{\ell-1}), \quad k \ge 1.
+    \]
+\end{remark}
+
+In item~\ref{it:b} of Theorem~\ref{th:gbc},~$\{\sum_{\ell=1}^k X_\ell\}$ is an increasing process, and $\{\sum_{\ell=1}
+^k \expc(X_\ell\mathrel{|}\FF_{\ell-1})\}$ is its compensator.
+Hence, item~\ref{it:b} of Theorem~\ref{th:gbc} can be rephrased as follows.
+
+\begin{theorem}
+    \label{th:ipbj}
+    Let~$\{X_k\}$ be an increasing process with bounded jumps
+    \textnormal{(}$0\le X_{k+1} - X_k \le C$ for each~$k\ge 1$ with a constant~$C$\textnormal{)}.
+    Let~$\{\tilde{X}_k\}$ be the compensator of~$\{X_k\}$.
+    Define
+\[
+    A \;=\; \left\{ X_k \to \infty \right\}
+    \quad \text{and} \quad
+    B \;=\;  \left\{\tilde{X}_k \to  \infty \right\}.
+\]
+      Then~$\Pr((A\cap B^{\comp}) \cup (B\cap A^{\comp})) = 0$.
+
+\end{theorem}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
